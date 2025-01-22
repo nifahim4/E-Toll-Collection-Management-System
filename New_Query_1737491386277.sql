@@ -30,3 +30,4 @@ DELETE FROM etoll where id>0;
 TRUNCATE TABLE etoll;
 
 ALTER TABLE etoll RENAME COLUMN create_at TO date;
+

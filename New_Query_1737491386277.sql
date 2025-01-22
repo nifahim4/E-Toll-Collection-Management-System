@@ -6,7 +6,7 @@ CREATE TABLE etoll (
     vehicleType VARCHAR(50),
     vehicleNumber VARCHAR(50),
     vehicleModel VARCHAR(50),
-    create_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO etoll (driverName, driverLisence, vehicleType, vehicleNumber, vehicleModel)

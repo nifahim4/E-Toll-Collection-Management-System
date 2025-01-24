@@ -2,13 +2,14 @@ package com.example.etollcollectionmanagementsystem;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -162,7 +163,6 @@ public class HelloController implements Initializable {
         vehicleTypeCombo.setValue(null);
 
     }
-
     private ObservableList<DriverVehicle> getDriverVehicleList() {
         ObservableList<DriverVehicle> driverVehicleList = FXCollections.observableArrayList();
         String selectQuery = "SELECT * FROM etoll";
@@ -180,7 +180,6 @@ public class HelloController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return driverVehicleList;
     }
     @FXML
@@ -239,5 +238,100 @@ public class HelloController implements Initializable {
         }
         seachTableView.setItems(getDriverVehicleList());
         driverVehicleTableView.setItems(getDriverVehicleList());
+    }
+
+    public void hadleSelectPerson(MouseEvent mouseEvent) {
+        DriverVehicle driverVehicle = driverVehicleTableView.getSelectionModel().getSelectedItem();
+
+        driverNameText.setText(driverVehicle.getDriverName());
+        driverLisenceText.setText(driverVehicle.getDriverLisence());
+        vehicleNumberText.setText(driverVehicle.getVehicleNumber());
+        vehicleModelText.setText(driverVehicle.getVehicleModel());
+        vehicleTypeCombo.setValue(driverVehicle.getVehicleType());
+    }
+
+    public void handlesUpdateAction(ActionEvent actionEvent) {
+        DriverVehicle driverVehicle = driverVehicleTableView.getSelectionModel().getSelectedItem();
+        if (driverVehicle != null) {
+            String updateQuery = "UPDATE etoll SET driverName = ?, driverLisence = ?, vehicleNumber = ?, vehicleModel = ?, vehicleType = ? WHERE id = ?";
+            try (PreparedStatement preparedStatement = DBConnection.getStatement().getConnection().prepareStatement(updateQuery)) {
+                preparedStatement.setString(1, driverNameText.getText());
+                preparedStatement.setString(2, driverLisenceText.getText());
+                preparedStatement.setString(3, vehicleNumberText.getText());
+                preparedStatement.setString(4, vehicleModelText.getText());
+                preparedStatement.setString(5, vehicleTypeCombo.getValue());
+                preparedStatement.setInt(6, driverVehicle.getId());
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        driverVehicleTableView.setItems(getDriverVehicleList());
+
+        String updatedTollMessage = "";
+        switch (vehicleTypeCombo.getValue()) {
+            case "Motorcycle":
+                updatedTollMessage = "Collect\n 100 Taka";
+                break;
+            case "Car/JEEP":
+                updatedTollMessage = "Collect\n 750 Taka";
+                break;
+            case "Pickup":
+                updatedTollMessage = "Collect\n 1,200 Taka";
+                break;
+            case "Microbus":
+                updatedTollMessage = "Collect\n 1,300 Taka";
+                break;
+            case "Truck(up to 5 tonnes)":
+                updatedTollMessage = "Collect\n 2,000 Taka";
+                break;
+            case "Truck(5-10 tonnes)":
+                updatedTollMessage = "Collect\n 3,000 Taka";
+                break;
+            case "Truck(10-15 tonnes)":
+                updatedTollMessage = "Collect\n 4,000 Taka";
+                break;
+            case "MINI-Bus":
+                updatedTollMessage = "Collect\n 1,400 Taka";
+                break;
+            case "MEDIUM-Bus":
+                updatedTollMessage = "Collect\n 2,000 Taka";
+                break;
+            case "LARGE-Bus":
+                updatedTollMessage = "Collect\n 2,400 Taka";
+                break;
+            case "Trailer":
+                updatedTollMessage = "Collect\n 5,000 Taka";
+                break;
+            default:
+                updatedTollMessage = "Collect\n 0 Taka";
+                break;
+        }
+
+        if (!updatedTollMessage.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Toll Update");
+            alert.setHeaderText(null);
+            alert.setContentText(updatedTollMessage);
+            DialogPane dialogPane = alert.getDialogPane();
+            Button button = (Button) dialogPane.lookupButton(ButtonType.OK);
+            dialogPane.setStyle("-fx-font-size: 40px;");
+            button.setStyle("-fx-font-size: 20px; -fx-padding: 10px 20px;");
+            alert.showAndWait();
+        }
+
+        driverNameText.clear();
+        driverLisenceText.clear();
+        vehicleNumberText.clear();
+        vehicleModelText.clear();
+        vehicleTypeCombo.setValue(null);
+    }
+
+    public void handlesClearAction(ActionEvent actionEvent) {
+        driverNameText.clear();
+        driverLisenceText.clear();
+        vehicleNumberText.clear();
+        vehicleModelText.clear();
+        vehicleTypeCombo.setValue(null);
     }
 }

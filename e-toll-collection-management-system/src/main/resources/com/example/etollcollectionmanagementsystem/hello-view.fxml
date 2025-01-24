@@ -78,15 +78,31 @@
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <TableView fx:id="driverVehicleTableView" layoutX="18.0" layoutY="280.0" prefHeight="302.0" prefWidth="567.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="280.0">
+                        <TableView fx:id="driverVehicleTableView" layoutX="18.0" layoutY="280.0" onMouseClicked="#hadleSelectPerson" prefHeight="302.0" prefWidth="567.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="280.0">
                           <columns>
                             <TableColumn fx:id="driverNameCol" prefWidth="104.0" text="Driver's Name" />
                             <TableColumn fx:id="driverLisenceCol" prefWidth="112.0" text="Driver's LISENCE" />
                               <TableColumn fx:id="vehicleTypeCol" prefWidth="100.0" text="Vehicle Type" />
                               <TableColumn fx:id="vehicleNumberCol" prefWidth="123.0" text="Vehicle Number" />
-                              <TableColumn fx:id="vehicleModelCol" prefWidth="127.0" text="Vehicle Model" />
+                              <TableColumn fx:id="vehicleModelCol" prefWidth="130.0" text="Vehicle Model" />
                           </columns>
                         </TableView>
+                        <Button layoutX="460.0" layoutY="220.0" mnemonicParsing="false" onAction="#handlesUpdateAction" prefHeight="32.0" prefWidth="60.0" style="-fx-background-color: #5F9EA0;" text="Update" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button layoutX="535.0" layoutY="14.0" mnemonicParsing="false" onAction="#handlesClearAction" prefHeight="32.0" prefWidth="45.0" style="-fx-background-color: #5F9EA0;" text="Clear" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
                      </children></AnchorPane>
                </content>
             </Tab>

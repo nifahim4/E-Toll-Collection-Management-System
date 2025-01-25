@@ -1,3 +1,5 @@
+CREATE DATABASE nakibul;
+use nakibul;
 
 CREATE TABLE etoll (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -30,4 +32,3 @@ DELETE FROM etoll where id>0;
 TRUNCATE TABLE etoll;
 
 ALTER TABLE etoll RENAME COLUMN create_at TO date;
-
